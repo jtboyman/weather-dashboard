@@ -53,6 +53,27 @@ let fiveDayFetcher = function(data) {
     fetch(fiveDayApiUrl).then(function(response) {
         response.json().then(function(newData) {
             console.log(newData);
+            fiveDayDisplay(newData);
         })
     })
+};
+
+//function to display UVI and 5 day info
+let fiveDayDisplay = function(newData) {
+    //display current UVI
+    let currentUV = document.getElementById("current-uv");
+    currentUV.textContent = "UV Index: " + newData.current.uvi;
+
+    //create arrays for 5 day data
+    for (let i = 1; i < 6; i++) {
+        var fiveDayData = [
+            {date: moment().add(i,'day').format("MM/DD/YYYY")},
+            {temp: newData.daily[i].temp.day + "°F and " + newData.daily[i].weather[0].main},
+            {wind: newData.daily[i].wind_speed + "MPH"},
+            {humidity: newData.daily[i].humidity + "%"},
+            {uv: newData.daily[i].uvi}
+        ]
+        console.log(fiveDayData);
+
+    }
 }
