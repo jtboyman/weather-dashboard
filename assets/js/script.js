@@ -1,19 +1,20 @@
 var myCitiesArray = [];
+var favDataArray = [];
 
 //function to fetch city data
 let searchCity = function() {
     let cityName = document.getElementById('cityInput').value.trim();
     let currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=78a0a45b801ca58af49f2eee9dac4832";
     //save for history/my cities section
-    citySaver(currentWeatherUrl);
+    citySaver(cityName);
 
     fetch(currentWeatherUrl).then(function(response) {
         //successful request
         if (response.ok) {
             response.json().then(function(data) {
                 displayCurrentWeather(data);
-                console.log(data)
                 fiveDayFetcher(data);
+                cityLoader();
             })
         }
 
@@ -56,7 +57,6 @@ let fiveDayFetcher = function(data) {
 
     fetch(fiveDayApiUrl).then(function(response) {
         response.json().then(function(newData) {
-            console.log(newData);
             fiveDayDisplay(newData);
         })
     })
@@ -99,16 +99,44 @@ let fiveDayDisplay = function(newData) {
     }
 };
 
-let citySaver = function(currentWeatherUrl) {
-    if (myCitiesArray.includes(currentWeatherUrl) === false) {
-        myCitiesArray.push(currentWeatherUrl);
+let citySaver = function(cityName) {
+    if (myCitiesArray.includes(cityName) === false) {
+        myCitiesArray.push(cityName);
         localStorage.setItem("myCities", JSON.stringify(myCitiesArray))
     }
 };
 
 let cityLoader = function() {
     myCitiesArray = JSON.parse(localStorage.getItem("myCities"));
+    if (!myCitiesArray) {
+        myCitiesArray = [];
+    }
+    else {
+        let historyEl = document.getElementById("button-holder");
+        historyEl.innerHTML = "";
+        for (let i = 0; i < myCitiesArray.length; i++) {
+            let historyButtonEl = document.createElement("button");
+            historyButtonEl.textContent = myCitiesArray[i];
+            historyButtonEl.setAttribute("id","history"+i);
+            document.getElementById('button-holder').appendChild(historyButtonEl);
 
+            fetch("https://api.openweathermap.org/data/2.5/weather?q=" + myCitiesArray[i] + "&units=imperial&appid=78a0a45b801ca58af49f2eee9dac4832").then(function(response) {
+                if (response.ok) {
+                    response.json().then(function(favoriteData) {
+                        document.getElementById("history"+i).addEventListener("click", function(event){
+                            displayCurrentWeather(favoriteData);
+                            fiveDayFetcher(favoriteData);
+                        });
+                    });
+                }
+            })
+            .catch(function(error) {
+                alert("We were unable to load your previous searches - please try again later :(");
+            })
+            
+
+        };
+    };
     
 };
 
@@ -118,3 +146,5 @@ document.getElementById('searchForm').addEventListener("submit", function(event)
 });
 
 document.getElementById('searchBtn').addEventListener("click", searchCity);
+
+cityLoader();
