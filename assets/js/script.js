@@ -7,6 +7,7 @@ let searchCity = function() {
         if (response.ok) {
             response.json().then(function(data) {
                 displayCurrentWeather(data);
+                console.log(data)
             })
         }
 
@@ -20,6 +21,11 @@ let searchCity = function() {
 };
 
 let displayCurrentWeather = function(data) {
+    //set header with city and date
     let cityDate = document.getElementById("city-date");
     cityDate.textContent = data.name + "  " + moment().format("MM/DD/YYYY");
+
+    //display icon
+    let icon = document.getElementById("current-icon");
+    icon.setAttribute("src","http://openweathermap.org/img/wn/"+ data.weather[0].icon + "@2x.png")
 }
