@@ -1,7 +1,11 @@
+var myCitiesArray = [];
+
 //function to fetch city data
 let searchCity = function() {
     let cityName = document.getElementById('cityInput').value.trim();
     let currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=78a0a45b801ca58af49f2eee9dac4832";
+    //save for history/my cities section
+    citySaver(currentWeatherUrl);
 
     fetch(currentWeatherUrl).then(function(response) {
         //successful request
@@ -68,12 +72,49 @@ let fiveDayDisplay = function(newData) {
     for (let i = 1; i < 6; i++) {
         var fiveDayData = [
             {date: moment().add(i,'day').format("MM/DD/YYYY")},
+            {icon: newData.daily[i].weather[0].icon},
             {temp: newData.daily[i].temp.day + "°F and " + newData.daily[i].weather[0].main},
             {wind: newData.daily[i].wind_speed + "MPH"},
             {humidity: newData.daily[i].humidity + "%"},
             {uv: newData.daily[i].uvi}
         ]
-        console.log(fiveDayData);
+        let fiveDayDate = document.getElementById("date"+i);
+        fiveDayDate.textContent = fiveDayData[0].date;
+
+        let fiveDayIcon = document.getElementById("icon"+i);
+        fiveDayIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + fiveDayData[1].icon + "@2x.png");
+
+        let fiveDayTemp = document.getElementById("temp"+i);
+        fiveDayTemp.textContent = fiveDayData[2].temp;
+
+        let fiveDayWind = document.getElementById("wind"+i);
+        fiveDayWind.textContent = fiveDayData[3].wind;
+
+        let fiveDayHumidity = document.getElementById("humidity"+i);
+        fiveDayHumidity.textContent = fiveDayData[4].humidity;
+
+        let fiveDayUv = document.getElementById("uv"+i);
+        fiveDayUv.textContent = fiveDayData[5].uv;
 
     }
-}
+};
+
+let citySaver = function(currentWeatherUrl) {
+    if (myCitiesArray.includes(currentWeatherUrl) === false) {
+        myCitiesArray.push(currentWeatherUrl);
+        localStorage.setItem("myCities", JSON.stringify(myCitiesArray))
+    }
+};
+
+let cityLoader = function() {
+    myCitiesArray = JSON.parse(localStorage.getItem("myCities"));
+
+    
+};
+
+document.getElementById('searchForm').addEventListener("submit", function(event){
+    event.preventDefault();
+    searchCity();
+});
+
+document.getElementById('searchBtn').addEventListener("click", searchCity);
