@@ -123,7 +123,7 @@ let cityLoader = function() {
             fetch("https://api.openweathermap.org/data/2.5/weather?q=" + myCitiesArray[i] + "&units=imperial&appid=78a0a45b801ca58af49f2eee9dac4832").then(function(response) {
                 if (response.ok) {
                     response.json().then(function(favoriteData) {
-                        document.getElementById("history"+i).addEventListener("click", function(event){
+                        document.getElementById("history"+i).addEventListener("click", function(){
                             displayCurrentWeather(favoriteData);
                             fiveDayFetcher(favoriteData);
                         });
