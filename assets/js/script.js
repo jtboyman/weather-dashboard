@@ -27,5 +27,18 @@ let displayCurrentWeather = function(data) {
 
     //display icon
     let icon = document.getElementById("current-icon");
-    icon.setAttribute("src","http://openweathermap.org/img/wn/"+ data.weather[0].icon + "@2x.png")
+    icon.setAttribute("src","http://openweathermap.org/img/wn/"+ data.weather[0].icon + "@2x.png");
+
+    //display temp
+    let currentTemp = document.getElementById("current-temp");
+    currentTemp.textContent = "Temp: " + data.main.temp + "°F and " + data.weather[0].main;
+
+    //display wind
+    let currentWind = document.getElementById("current-wind");
+    currentWind.textContent = "Wind: " + data.wind.speed + "MPH";
+
+    //display humidity
+    let currentHumidity = document.getElementById("current-humidity");
+    currentHumidity.textContent = "Humidity: " + data.main.humidity + "%";
+    //uv data cannot be obtained from this call; uv data will be added in other display function
 }
