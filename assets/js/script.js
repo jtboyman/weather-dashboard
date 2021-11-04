@@ -34,7 +34,7 @@ let displayCurrentWeather = function(data) {
 
     //display icon
     let icon = document.getElementById("current-icon");
-    icon.setAttribute("src","http://openweathermap.org/img/wn/"+ data.weather[0].icon + "@2x.png");
+    icon.setAttribute("src","https://openweathermap.org/img/wn/"+ data.weather[0].icon + "@2x.png");
 
     //display temp
     let currentTemp = document.getElementById("current-temp");
@@ -92,7 +92,7 @@ let fiveDayDisplay = function(newData) {
         fiveDayDate.textContent = fiveDayData[0].date;
 
         let fiveDayIcon = document.getElementById("icon"+i);
-        fiveDayIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + fiveDayData[1].icon + "@2x.png");
+        fiveDayIcon.setAttribute("src", "https://openweathermap.org/img/wn/" + fiveDayData[1].icon + "@2x.png");
 
         let fiveDayTemp = document.getElementById("temp"+i);
         fiveDayTemp.textContent = "Temp: " + fiveDayData[2].temp;
