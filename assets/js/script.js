@@ -67,6 +67,16 @@ let fiveDayDisplay = function(newData) {
     //display current UVI
     let currentUV = document.getElementById("current-uv");
     currentUV.textContent = "UV Index: " + newData.current.uvi;
+    //set uvi colors
+    if (newData.current.uvi <= 2) {
+        currentUV.classList.add("uvi-low");
+    }
+    else if (newData.current.uvi>2 && newData.current.uvi<=5) {
+        currentUV.classList.add("uvi-moderate");
+    }
+    else if (newData.current.uvi>5) {
+        currentUV.classList.add("uvi-high");
+    };
 
     //create arrays for 5 day data
     for (let i = 1; i < 6; i++) {
@@ -85,16 +95,26 @@ let fiveDayDisplay = function(newData) {
         fiveDayIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + fiveDayData[1].icon + "@2x.png");
 
         let fiveDayTemp = document.getElementById("temp"+i);
-        fiveDayTemp.textContent = fiveDayData[2].temp;
+        fiveDayTemp.textContent = "Temp: " + fiveDayData[2].temp;
 
         let fiveDayWind = document.getElementById("wind"+i);
-        fiveDayWind.textContent = fiveDayData[3].wind;
+        fiveDayWind.textContent = "Wind: " + fiveDayData[3].wind;
 
         let fiveDayHumidity = document.getElementById("humidity"+i);
-        fiveDayHumidity.textContent = fiveDayData[4].humidity;
+        fiveDayHumidity.textContent = 'Humidity: ' + fiveDayData[4].humidity;
 
         let fiveDayUv = document.getElementById("uv"+i);
-        fiveDayUv.textContent = fiveDayData[5].uv;
+        fiveDayUv.textContent = 'UV Index: ' + fiveDayData[5].uv;
+        //set uvi colors
+        if (fiveDayData[5].uv <= 2) {
+            fiveDayUv.classList.add("uvi-low");
+        }
+        else if (fiveDayData[5].uv>2 && fiveDayData[5].uv<=5) {
+            fiveDayUv.classList.add("uvi-moderate");
+        }
+        else if (fiveDayData[5].uv>5) {
+            fiveDayUv.classList.add("uvi-high");
+        };
 
     }
 };

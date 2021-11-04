@@ -43,3 +43,21 @@ button {
 body {
     background-image: url('../images/blue-sky-bg.jpg');
 }
+
+.uvi-low {
+    background-color: green;
+    border-radius: 5px;
+    display: inline;
+}
+
+.uvi-moderate {
+    background-color: yellow;
+    border-radius: 5px;
+    display: inline;
+}
+
+.uvi-high {
+    background-color: red;
+    border-radius: 5px;
+    display: inline;
+}
