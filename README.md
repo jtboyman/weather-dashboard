@@ -1,6 +1,7 @@
 # Weather Dashboard
 
 A simple weather app that shows current temperature, wind speed, humidity, and UVI, as well as a 5-day forecast for many different cities.
+https://jtboyman.github.io/weather-dashboard/
 
 ## Description
 
